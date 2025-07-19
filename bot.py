@@ -7,8 +7,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 import datetime
 
-TELEGRAM_TOKEN =
-"8010258907:AAFOD8hyCy6eW0KjLdtHOVW14IMwGsphF7U"
+TELEGRAM_TOKEN = "8010258907:AAFOD8hyCy6eW0KjLdtHOVW14IMwGsphF7U"
 TELEGRAM_USER_ID = "7971306481"
 
 coins = [
