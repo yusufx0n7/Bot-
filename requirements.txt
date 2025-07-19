@@ -1,0 +1,3 @@
+nest-asyncio
+aiohttp
+python-telegram-bot==20.8
