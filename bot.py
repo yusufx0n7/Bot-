@@ -1,7 +1,7 @@
-import nest_asyncio
-nest_asyncio.apply()
+# import nest_asyncio  # Olib tashlandi
+# nest_asyncio.apply() # Olib tashlandi
 
-import asyncio
+# import asyncio  # Olib tashlandi, lekin asinxron funksiyalar ishlashi uchun kerak bo'ladi
 import aiohttp
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
@@ -103,5 +103,5 @@ async def main():
         await app.updater.start_polling()
         await app.updater.idle()
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# if __name__ == "__main__": # Olib tashlandi
+#     asyncio.run(main())     # Olib tashlandi
