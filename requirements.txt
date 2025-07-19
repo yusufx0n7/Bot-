@@ -1,3 +1,2 @@
-nest-asyncio
 aiohttp
 python-telegram-bot
