@@ -13,13 +13,11 @@ MIN_LIQUIDITY = 5000
 CHESK_MODE_TIME = 300  # sekund (5 daqiqa)
 PAIR_LIST = ["BTC/USDT", "ETH/USDT", "SOL/USDT", "XRP/USDT", "ADA/USDT", "DOGE/USDT", "AVAX/USDT", "TON/USDT", "LINK/USDT", "DOT/USDT"]
 
-# === CCXT Mavjud birjalar (API ochiq) ===
 CCXT_SUPPORTED_EXCHANGES = [
     "binance", "mexc", "coinex", "kraken", "huobi", "bitget",
     "poloniex", "bitmart", "bingx", "lbank", "digifinex"
 ]
 
-# === Yopiq API birjalar (CoinGecko orqali ishlaydi) ===
 COINGECKO_ONLY_EXCHANGES = [
     "superex", "toobit", "ascendex", "blofin", "bdfi", "bitrue", "bydfi",
     "coinw", "ourbit", "btcc", "weex", "gmgn", "kcex", "coincola"
@@ -27,220 +25,150 @@ COINGECKO_ONLY_EXCHANGES = [
 
 EXCHANGES = CCXT_SUPPORTED_EXCHANGES + COINGECKO_ONLY_EXCHANGES
 
-# === CoinGecko ID mapping ===
 COINGECKO_IDS = {
-    "AA/USDT": "a3s-protocol",
-    "ABEL/USDT": "abelian",
-    "ACE/USDT": "acent",
-    "ACH/USDT": "alchemy-pay",
-    "ACRIA/USDT": "acria-ai",
-    "ACT/USDT": "act-i-the-ai-prophecy",
-    "ADA/USDT": "cardano",
-    "ADX/USDT": "adex",
-    "AGLD/USDT": "adventure-gold",
-    "AE/USDT": "aeternity",
-    "AERGO/USDT": "aergo",
-    "AGRS/USDT": "agoras-currency-of-tau",
-    "AGIXT/USDT": "agixt",
-    "AIA/USDT": "aia-chain",
-    "AIFUN/USDT": "ai-agent-layer",
-    "AIN/USDT": "ai-network",
-    "AI/USDT": "ai-pin", # "Multiverse" ham "AI" bo'lishi mumkin, aniqlash kerak
-    "ARC/USDT": "ai-rig-complex",
-    "AIMX/USDT": "aimedis-new",
-    "AIXBT/USDT": "aixbt-by-virtuals",
-    "AKI/USDT": "aki-network",
-    "AGT/USDT": "alaya-governance-token",
-    "ALCH/USDT": "alchemist-ai",
-    "ALEO/USDT": "aleo",
-    "ALEPH/USDT": "aleph-im",
-    "ALPH/USDT": "alephium",
-    "ALGO/USDT": "algorand",
-    "ALLIN/USDT": "all-in",
-    "ABR/USDT": "allbridge",
-    "ATS/USDT": "alltoscan",
-    "ALPINE/USDT": "alpine-f1-team",
-    "ALT/USDT": "altlayer",
-    "ALU/USDT": "altura",
-    "AMB/USDT": "airdao",
-    "AME/USDT": "ame-chain",
-    "AMP/USDT": "amp",
-    "ANLOG/USDT": "analog",
-    "AEUR/USDT": "anchored-coins-aeur",
-    "ANDR/USDT": "andromeda",
-    "ANKR/USDT": "ankr",
-    "ANYONE/USDT": "anyone-protocol",
-    "AO/USDT": "ao",
-    "APE/USDT": "apecoin",
-    "API3/USDT": "api3",
-    "APT/USDT": "aptos",
-    "AQA/USDT": "aqa",
-    "ARB/USDT": "arbitrum",
-    "AIUS/USDT": "arbius",
-    "ARDR/USDT": "arbor", # "Ardor" ham ARDR
+    "a3s-protocol": "a3s-protocol",
+    "abelian": "abelian",
+    "acent": "acent",
+    "alchemy-pay": "alchemy-pay",
+    "acria-ai": "acria-ai",
+    "act-i-the-ai-prophecy": "act-i-the-ai-prophecy",
+    "cardano": "cardano",
+    "adex": "adex",
+    "adventure-gold": "adventure-gold",
+    "aeternity": "aeternity",
+    "aergo": "aergo",
+    "agoras-currency-of-tau": "agoras-currency-of-tau",
+    "agixt": "agixt",
+    "aia-chain": "aia-chain",
+    "ai-agent-layer": "ai-agent-layer",
+    "ai-network": "ai-network",
+    "ai-pin": "ai-pin", 
+    "ai-rig-complex": "ai-rig-complex",
+    "aimedis-new": "aimedis-new",
+    "aixbt-by-virtuals": "aixbt-by-virtuals",
+    "aki-network": "aki-network",
+    "alaya-governance-token": "alaya-governance-token",
+    "alchemist-ai": "alchemist-ai",
+    "aleo": "aleo",
+    "aleph-im": "aleph-im",
+    "alephium": "alephium",
+    "algorand": "algorand",
+    "all-in": "all-in",
+    "allbridge": "allbridge",
+    "alltoscan": "alltoscan",
+    "alpine-f1-team": "alpine-f1-team",
+    "altlayer": "altlayer",
+    "altura": "altura",
+    "airdao": "airdao",
+    "ame-chain": "ame-chain",
+    "amp": "amp",
+    "analog": "analog",
+    "anchored-coins-aeur": "anchored-coins-aeur",
+    "andromeda": "andromeda",
+    "ankr": "ankr",
+    "anyone-protocol": "anyone-protocol",
+    "ao": "ao",
+    "apecoin": "apecoin",
+    "api3": "api3",
+    "aptos": "aptos",
+    "aqa": "aqa",
+    "arbitrum": "arbitrum",
+    "arbius": "arbius",
+    "arbor": "arbor"
 }
+
 chesk_mode = False
 
-# === Telegram xabar yuborish ===
 def send_message(text):
-    """
-    Telegram bot orqali xabar yuborish funksiyasi.
-    Xabar yuborishda xato yuzaga kelsa, uni e'tiborsiz qoldiradi.
-    """
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     data = {"chat_id": CHAT_ID, "text": text}
     try:
         requests.post(url, data=data)
     except requests.exceptions.RequestException as e:
-        print(f"Telegramga xabar yuborishda xato: {e}") # Xatolarni konsolga chiqarish tavsiya etiladi
+        print(f"Telegramga xabar yuborishda xato: {e}")
         pass
 
-# === CCXT orqali birja ulash ===
 def get_exchange(name):
-    """
-    CCXT kutubxonasi orqali birja obyektini yaratish.
-    Agar birja topilmasa yoki ulanishda xato bo'lsa, None qaytaradi.
-    """
     try:
-        # ccxt.binance(), ccxt.mexc() kabi obyektlarni qaytaradi
         return getattr(ccxt, name)()
-    except AttributeError:
-        print(f"CCXT: '{name}' birjasi topilmadi yoki xato.")
-        return None
     except Exception as e:
-        print(f"CCXT: '{name}' birjasini ishga tushirishda kutilmagan xato: {e}")
+        print(f"Birja ulanish xatosi ({name}): {e}")
         return None
 
-# === CCXT narx olish ===
 def fetch_price_ccxt(exchange, pair):
-    """
-    CCXT orqali berilgan birjadan valyuta juftligining narxini olish.
-    Agar narx olishda xato yuzaga kelsa, None qaytaradi.
-    """
     try:
         ticker = exchange.fetch_ticker(pair)
         return {
             "bid": ticker['bid'],
             "ask": ticker['ask'],
-            "volume": ticker.get('baseVolume', 0) # 'baseVolume' mavjud bo'lmasa 0 qaytaradi
+            "volume": ticker.get('baseVolume', 0)
         }
-    except ccxt.NetworkError as e:
-        print(f"CCXT {exchange.id} {pair}: Tarmoq xatosi - {e}")
-        return None
-    except ccxt.ExchangeError as e:
-        print(f"CCXT {exchange.id} {pair}: Birja xatosi - {e}")
-        return None
     except Exception as e:
-        print(f"CCXT {exchange.id} {pair}: Narxni olishda kutilmagan xato: {e}")
+        print(f"CCXT {exchange.id} {pair} xato: {e}")
         return None
 
-# === CoinGecko narx olish ===
 def fetch_price_coingecko(coin_id):
-    """
-    CoinGecko API orqali koinning narxini olish.
-    Agar API chaqiruvida xato yuzaga kelsa, None qaytaradi.
-    """
     try:
         url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd"
-        r = requests.get(url, timeout=10) # Timeout qo'shish tavsiya etiladi
-        r.raise_for_status() # HTTP xatolarini tekshirish (4xx yoki 5xx)
+        r = requests.get(url, timeout=10)
+        r.raise_for_status()
         data = r.json()
         if coin_id in data and 'usd' in data[coin_id]:
-            # CoinGecko volume ma'lumotini to'g'ridan-to'g'ri bermaydi, shuning uchun katta son berildi
-            # Real loyihalar uchun volume uchun boshqa API ishlatish kerak
             return {
                 "bid": data[coin_id]['usd'],
                 "ask": data[coin_id]['usd'],
-                "volume": 999999999 # Katta, mavjud bo'lmagan likvidlik qiymati
+                "volume": 999999999
             }
-        else:
-            print(f"CoinGecko: '{coin_id}' uchun narx ma'lumoti topilmadi.")
-            return None
-    except requests.exceptions.Timeout:
-        print(f"CoinGecko {coin_id}: So'rov vaqti tugadi.")
-        return None
-    except requests.exceptions.RequestException as e:
-        print(f"CoinGecko {coin_id}: So'rov xatosi - {e}")
-        return None
     except Exception as e:
-        print(f"CoinGecko {coin_id}: Narxni olishda kutilmagan xato: {e}")
-        return None
+        print(f"CoinGecko {coin_id} xato: {e}")
+    return None
 
-# === Narxlarni olish ===
 def fetch_price(exchange_name, symbol):
-    """
-    Berilgan birja nomidan va valyuta juftligidan narx ma'lumotlarini olish.
-    CCXT yoki CoinGecko orqali harakat qiladi.
-    """
     coin_id = COINGECKO_IDS.get(symbol)
     if exchange_name in CCXT_SUPPORTED_EXCHANGES:
         exch = get_exchange(exchange_name)
         if exch:
             return fetch_price_ccxt(exch, symbol)
-    elif exchange_name in COINGECKO_ONLY_EXCHANGES:
-        if coin_id: # coin_id mavjudligini tekshirish muhim
-            return fetch_price_coingecko(coin_id)
-        else:
-            print(f"CoinGecko: '{symbol}' uchun CoinGecko ID topilmadi.")
+    elif exchange_name in COINGECKO_ONLY_EXCHANGES and coin_id:
+        return fetch_price_coingecko(coin_id)
     return None
 
-# === Arbitraj tekshirish ===
 def check_arbitrage(pair):
-    """
-    Berilgan valyuta juftligi bo'yicha turli birjalar orasida arbitraj imkoniyatini tekshiradi.
-    Topilgan imkoniyatlarni Telegramga xabar qilib yuboradi.
-    """
     prices = []
     for name in EXCHANGES:
         price_info = fetch_price(name, pair)
-        if price_info and price_info['bid'] is not None and price_info['ask'] is not None:
-            # Ba'zi birjalar 'bid' yoki 'ask' ni None qaytarishi mumkin, tekshirish muhim
+        if price_info and price_info['bid'] and price_info['ask']:
             prices.append((name, price_info))
 
     if len(prices) < 2:
-        # print(f"{pair}: Arbitraj tekshirish uchun yetarli narx ma'lumoti topilmadi ({len(prices)} ta birja).")
         return
 
-    # Eng past sotib olish narxi (ask) va eng yuqori sotish narxi (bid) ni topish
     min_buy = min(prices, key=lambda x: x[1]['ask'])
     max_sell = max(prices, key=lambda x: x[1]['bid'])
 
-    if min_buy[0] == max_sell[0]:
-        # print(f"{pair}: Sotib olish va sotish bir xil birjada.")
+    if min_buy[0] == max_sell[0] or min_buy[1]['ask'] == 0:
         return
 
     spread = max_sell[1]['bid'] - min_buy[1]['ask']
-
-    if min_buy[1]['ask'] == 0: # 0 ga bo'linishni oldini olish
-        print(f"{pair}: Sotib olish narxi 0 bo'lgani uchun foyda hisoblash imkonsiz.")
-        return
-
     profit_percent = (spread / min_buy[1]['ask']) * 100
 
-    # Foyda va likvidlik shartlarini tekshirish
     if profit_percent >= MIN_PROFIT_PERCENT and min_buy[1]['volume'] >= MIN_LIQUIDITY:
         msg = (f"💰 Arbitraj Topildi!\n"
                f"Coin: {pair}\n"
-               f"⬇️ Sotib olish: {min_buy[0]} @ {min_buy[1]['ask']:.6f}\n" # Formatlash
-               f"⬆️ Sotish: {max_sell[0]} @ {max_sell[1]['bid']:.6f}\n" # Formatlash
+               f"⬇️ Sotib olish: {min_buy[0]} @ {min_buy[1]['ask']:.6f}\n"
+               f"⬆️ Sotish: {max_sell[0]} @ {max_sell[1]['bid']:.6f}\n"
                f"📈 Foyda: {profit_percent:.2f}%")
         send_message(msg)
-        print(f"ARBITRAJ TOPILDI: {pair} - {profit_percent:.2f}%")
-    elif chesk_mode and profit_percent >= 1.0: # chesk_mode holati faqat foyda 1% dan yuqori bo'lganda ishlaydi
+        print(f"ARBITRAJ: {pair} - {profit_percent:.2f}%")
+    elif chesk_mode and profit_percent >= 1.0:
         msg = (f"🧐 Chesk imkoniyat: {pair}\n"
-               f"⬇️ {min_buy[0]}: {min_buy[1]['ask']:.6f}\n" # Formatlash
-               f"⬆️ {max_sell[0]}: {max_sell[1]['bid']:.6f}\n" # Formatlash
+               f"⬇️ {min_buy[0]}: {min_buy[1]['ask']:.6f}\n"
+               f"⬆️ {max_sell[0]}: {max_sell[1]['bid']:.6f}\n"
                f"📉 Foyda: {profit_percent:.2f}%")
         send_message(msg)
-        print(f"CHESK IMKONIYATI: {pair} - {profit_percent:.2f}%")
+        print(f"CHESK: {pair} - {profit_percent:.2f}%")
 
-
-# === Bot komandalarini tinglash ===
 def listen_bot():
-    """
-    Telegram botidan kelgan komandalarni tinglaydi va ularga javob beradi.
-    '/start' va '/chesk' komandalarini qo'llab-quvvatlaydi.
-    """
     global chesk_mode
     offset = None
     chesk_start_time = 0
@@ -250,68 +178,57 @@ def listen_bot():
         if offset:
             url += f"?offset={offset}"
         try:
-            r = requests.get(url, timeout=10).json() # Timeout qo'shish
-            for result in r.get('result', []): # 'result' kaliti mavjudligini tekshirish
+            r = requests.get(url, timeout=10).json()
+            for result in r.get('result', []):
                 offset = result['update_id'] + 1
                 message = result.get('message', {})
                 text = message.get('text', '')
                 chat_id_from_msg = message.get('chat', {}).get('id')
-
-                # Chat ID to'g'riligini tekshirish (faqat ruxsat berilgan CHAT_ID dan kelgan xabarlarga javob berish)
                 if str(chat_id_from_msg) != CHAT_ID:
-                    print(f"Begona CHAT_ID dan xabar keldi: {chat_id_from_msg}. E'tiborsiz qoldirildi.")
                     continue
 
                 if text == "/start":
-                    send_message("🟢 Assalomu alaykum! Maqsadingiz esingizdan chiqmasin. Tekshiruv boshlandi.")
-                    print("/start komandasi qabul qilindi.")
+                    send_message("🟢 Bot ishga tushdi. Arbitraj tekshiruvi boshlandi.")
                 elif text == "/chesk":
                     send_message("🧪 5 daqiqalik chesk rejimi ishga tushdi...")
                     chesk_mode = True
                     chesk_start_time = time.time()
-                    print("/chesk komandasi qabul qilindi. Chesk rejimi faol.")
-                elif text: # Boshqa xabarlarga ham javob berish mumkin
+                elif text:
                     print(f"Yangi xabar: {text}")
-
-        except requests.exceptions.RequestException as e:
-            print(f"Telegram getUpdates so'rovida xato: {e}")
         except Exception as e:
-            print(f"Telegram komandalarini tinglashda kutilmagan xato: {e}")
+            print(f"Telegram getUpdates xato: {e}")
 
-        # Chesk rejimini vaqt bo'yicha o'chirish
         if chesk_mode and (time.time() - chesk_start_time > CHESK_MODE_TIME):
             chesk_mode = False
             send_message("✅ Chesk rejimi yakunlandi.")
-            print("Chesk rejimi yakunlandi.")
         time.sleep(2)
 
-# === Asosiy tekshiruv ishga tushurish ===
 def run_bot():
-    """
-    Asosiy bot funksiyasi. Belgilangan valyuta juftliklari bo'yicha
-    arbitraj imkoniyatlarini muntazam tekshirib boradi.
-    """
     print("Asosiy arbitraj tekshiruvi boshlandi...")
+    check_interval = 300  # 5 daqiqa
+    num_pairs = len(PAIR_LIST)
+    delay_per_coin = check_interval / num_pairs if num_pairs > 0 else 1
+
     while True:
+        cycle_start = time.time()
+        print(f"Yangi davr boshlandi. {num_pairs} ta coin tekshirilmoqda...")
+
         for pair in PAIR_LIST:
             check_arbitrage(pair)
-            time.sleep(1)  # har 1 sekunda 1 coin tekshiradi
-        print(f"{len(PAIR_LIST)} ta coin tekshirildi. Navbatdagi tekshiruv 60 sekunddan so'ng.")
-        time.sleep(60)  # 10 ta coin tugasa 60 sekunda dam
+            time.sleep(delay_per_coin)
 
-# === Boshlash ===
+        elapsed = time.time() - cycle_start
+        print(f"{num_pairs} ta coin tekshirildi. Davr davomiyligi: {elapsed:.1f} sekund.")
+
 if __name__ == "__main__":
-    # Telegram TOKEN va CHAT_ID ni tekshirish
     if TELEGRAM_TOKEN == "YOUR_TELEGRAM_BOT_TOKEN" or CHAT_ID == "YOUR_TELEGRAM_CHAT_ID":
-        print("XATO: Iltimos, TELEGRAM_TOKEN va CHAT_ID ni o'rnating. Kod ishga tushmaydi.")
+        print("XATO: TELEGRAM_TOKEN va CHAT_ID to'g'ri emas.")
     else:
-        # Ikkita alohida threadda ishga tushirish
-        telegram_listener_thread = threading.Thread(target=listen_bot)
-        main_bot_thread = threading.Thread(target=run_bot)
+        telegram_thread = threading.Thread(target=listen_bot)
+        bot_thread = threading.Thread(target=run_bot)
 
-        telegram_listener_thread.start()
-        main_bot_thread.start()
+        telegram_thread.start()
+        bot_thread.start()
 
-        # Threadlar tugashini kutish (nazariy jihatdan bu bot doimiy ishlashi kerak)
-        telegram_listener_thread.join()
-        main_bot_thread.join()
+        telegram_thread.join()
+        bot_thread.join()
